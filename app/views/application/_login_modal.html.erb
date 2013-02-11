@@ -1,0 +1,34 @@
+<div class="modal hide" id="loginModal">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal">x</button>
+	    <h3>Login to Queso</h3>
+    </div>
+    
+    <div class="modal-body">
+    	
+		<table width="100%">
+		<tr><td>
+		<%= form_for(UserSession.new) do |f| %>
+		    <p><%= f.text_field :email, :placeholder => "Email" %></p>
+		    <p><%= f.password_field :password, :placeholder => "Password" %></p>
+		  	<p><label class="string optional remember" for="user_session_remember_me">
+		  		<%= f.check_box :remember_me, :style => "float: left; margin-right: 5px;" %>
+		  		<span>Remember me</span>
+	  		</label></p>
+		    <p><%= f.submit 'Login', :class => "btn btn-success btn-block", :id => "userLoginModalButton" %></p>
+	    <% end %>
+	    </td>
+	    <td rowspan="4" style="padding-left: 9px;"></td>
+	    <td rowspan="4" style="border-left: 1px solid #e5e5e5; padding-right: 8px;"></td>
+	    <td id="user_session_errors" valign="top" width="285px">
+	    	
+	    </td>
+	    </tr>
+	 	</table>
+		
+    </div>
+    
+    <div class="modal-footer">
+	    <span>New to Queso? </span><%= link_to "Register", new_user_path, :class => "btn btn-primary", :style => "margin-bottom: 6px;" %>
+    </div>
+</div>

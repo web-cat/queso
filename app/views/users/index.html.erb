@@ -1,0 +1,64 @@
+<h1>Users</h1>
+
+<div class="btn-toolbar">
+	<a href="<%= new_user_path %>"><button  class="btn btn-primary" style="margin-right: 5px;">New User</button></a>
+    <a href="<%= users_path(:format => "csv") %>"><button class="btn">Export</button></a>
+</div>
+<div class="well">
+    <table class="table" data-provides="rowlink">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      	<% @users.each do |user| %>
+      	<% if can? :read, user %>
+        <tr>
+          <td><%= link_to user.id.to_s, user %></td>
+          <td><%= user.firstname %></td>
+          <td><%= user.lastname %></td>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role.humanize %></td>
+          
+          <td class="nolink">
+          	<% if can? :update, user %>
+              <a href="<%= edit_user_path(user) %>"><i class="icon-pencil"></i></a>
+            <% end %>
+            <% if can? :delete, user %>
+              <a href="#deleteUserModal" role="button" data-toggle="modal" id="userDeleteButton" data-delete-user-id="<%= user.id.to_s %>" data-delete-user-name="<%= user.username %>"><i class="icon-remove"></i></a>
+          	<% end %>
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+
+<div align="right">
+<%= paginate @users, :window => 3, :outer_window => 2 %>
+</div>
+
+<div class="modal small hide fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="deleteUserModalLabel">Delete Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p class="error-text">Are you sure you want to delete the user <span id="user-to-delete"></span>?</p>
+    </div>
+    <div class="modal-footer">
+    	 <div style="margin-left: 10px; float: right;"><%= button_to 'Delete', "#", :method => :delete, :class => "btn btn-danger", :style => "height: 30px;" %></div>
+	     <div style="float: right;"><button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button></div>
+    </div>
+</div>
+ 
+<br />

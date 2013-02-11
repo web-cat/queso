@@ -22,6 +22,15 @@ end
 
 gem 'jquery-rails'
 
+# The authlogic gem for login/logout support
+gem 'authlogic'
+
+# Manage authorizations better.
+gem 'cancan'
+
+# For easy pagination
+gem 'kaminari'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

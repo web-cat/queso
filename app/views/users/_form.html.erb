@@ -1,0 +1,55 @@
+<br />
+<div class="row">
+	
+	<div class="span6 offset3 well">
+		<legend>Sign Up</legend>		
+
+		<%= form_for(@user) do |f| %>
+		
+		  <div class="span4" align="center" style="margin-left: 0;">
+		  	<table>
+		  		<tr>
+		  			<td><%= f.text_field :firstname, :placeholder => "First Name", :tabindex => 1 %></td>
+		  			<td rowspan="4" style="padding-left: 9px;"></td>
+		  			<td rowspan="4" style="border-left: 1px solid #e5e5e5; padding-right: 8px;"></td>
+		  			<td><%= f.password_field :password, :placeholder => "Password", :tabindex => 5 %></td>
+	  			</tr>
+	  			
+		  		<tr>
+		  			<td><%= f.text_field :lastname, :placeholder => "Last Name", :tabindex => 2 %></td>
+		  			<td><%= f.password_field :password_confirmation, :placeholder => "Password Confirmation", :tabindex => 6 %></td>
+	  			</tr>
+	  			
+			  	<tr>
+			  		<td><%= f.text_field :username, :placeholder => "Username", :tabindex => 3 %></td>
+			  		<td>
+			  		<% if can? :manage, :all  %>
+			  			<%= f.collection_select :role, User::ROLES, :to_s, :humanize%>
+			  		<% end %>
+			  		</td>
+		  		</tr>
+		  		
+			    <tr>
+			    	<td><%= f.text_field :email, :placeholder => "Email", :tabindex => 4 %></td>
+			    	
+			    	<td><%= f.submit :class => "btn btn-primary btn-block", :tabindex => 7 %></td>
+		    	</tr>
+		    	
+		    	<% if @user.errors.any? %>
+		    	<tr><td colspan="4" style="padding-top: 10px;">
+				<div class="alert alert-error">
+			  	  <a class="close" data-dismiss="alert">×</a>
+			      <% @user.errors.full_messages.each do |msg| %>
+			        <p><%= msg %></p>
+			      <% end %>
+			    </div>
+			    </td></tr>
+			    <% end %>
+		    </table>
+		  </div>
+		  
+		<% end %>
+		
+			
+	</div>
+</div>

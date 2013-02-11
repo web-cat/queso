@@ -1,0 +1,3 @@
+class TrueOrFalseQuestion < Question
+  
+end

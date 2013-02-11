@@ -11,3 +11,19 @@
  *= require_self
  *= require_tree .
  */
+
+.remember span {
+    font-size: 11px;
+    line-height: 13px;
+    color: rgb(153, 153, 153);
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+}
+
+.modal-footer span {
+	color: rgb(153, 153, 153);
+    text-shadow: 0px 2px 0px rgba(255, 255, 255, 1.0);
+}
+
+.pagination_nav_btn {
+	font-weight: bold;
+}

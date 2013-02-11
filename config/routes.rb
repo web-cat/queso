@@ -1,4 +1,11 @@
 Queso::Application.routes.draw do
+  
+  resources :users, :exams, :questions, :user_sessions, :true_or_false_questions
+
+  match 'login' => 'user_sessions#new', :as => :login
+  
+  match 'logout' => 'user_sessions#destroy', :as => :logout
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +55,7 @@ Queso::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'general#index'
 
   # See how all your routes lay out with "rake routes"
 
