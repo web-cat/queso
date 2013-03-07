@@ -1,25 +1,28 @@
-<%= form_for(@question) do |f| %>
-  <% if @question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
-
-      <ul>
-      <% @question.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :statement %><br />
-    <%= f.text_area :statement %>
+<%= form_for(@question, :html => {:class => "questions-form well span10"}) do |f| %>
+  <div class="row">
+  		  		
+		<div class="span7">
+			<%= f.label :statement %>
+			<%= f.text_area :statement, :class => "input-xlarge span7", :rows => 6 %>
+		</div>
+		
+		<div class="span3">
+			<br />
+			<%= f.label :points, "Default Points" %>
+			<%= f.text_field :points, :class => "span3", :placeholder => "Default number of points" %>
+			
+			<% if params[:action] == "new" %>
+			<%= f.label :type %>
+			<%= f.collection_select :type, Question::TYPES, :to_s, :humanize, :class => "span3", :prompt => "Please select a type" %>
+			
+			<div id="true-or-false-extra" class="hide">
+				<label>Correct Answer</label>
+				<%= select_tag "correct-answer", :class => "span3" %>
+			</div>
+			<% end %>
+			
+		</div>
   </div>
-  <div class="field">
-    <%= f.label :points %><br />
-    <%= f.number_field :points %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	
+	<%= f.submit :class => "btn btn-primary pull-right" %>
 <% end %>

@@ -1,25 +1,52 @@
-<%= form_for(@exam) do |f| %>
-  <% if @exam.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this exam from being saved:</h2>
-
-      <ul>
-      <% @exam.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for(@exam, :html => {:class => "well span6", :style => "margin-left: 0px;"}) do |f| %>
+	
+	<%= f.hidden_field :id, :value => @exam.id %>
+	
+	<div class="row">
+	  <div class="span5">
+	    <%= f.label :name %>
+	    <%= f.text_field :name, :class => "span5" %>
+	  </div>
+	  
+	  <div class="span1">
+		  <%= f.label :attempts_allowed, "Attempts", :class => "span1", :style => "margin-left: 3px;" %>
+		  <%= f.number_field :attempts_allowed, :class=> "span1" %>
+	  </div>
     </div>
-  <% end %>
+    
+    <div class="row">
+    	<div class="span3">
+    	  <%= f.label :available_at, "Opens" %>
+	      <div class="input-append date form-datetime">
+	      	<% if f.object.available_at %>
+	      		<%= f.text_field :available_at, :value => f.object.available_at.strftime("%d %b %Y - %H:%M") %>
+	      	<% else %>
+	      		<%= f.text_field :available_at %>
+	      	<% end %>
+		    <span class="add-on"><i class="icon-th"></i></span>
+	      </div>
+		</div>
+		
+		<div class="span3">
+    	  <%= f.label :closes_at, "Closes" %>
+	      <div class="input-append date form-datetime">
+	      	<% if f.object.closes_at %>
+	      		<%= f.text_field :closes_at, :value => f.object.closes_at.strftime("%d %b %Y - %H:%M") %>
+	      	<% else %>
+	      		<%= f.text_field :closes_at %>
+	      	<% end %>
+		    <span class="add-on"><i class="icon-th"></i></span>
+	      </div>
+		</div>
+ 	</div>
+	
+	<% if params[:action] != "new" %>
+		<%= render :partial => "question_list", :locals => {:f => f} %>
+	<% end %>
+	
+	<br />
+	<div align="center">
+	<%= f.submit :class => "btn btn-primary" %>
+	</div>	
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :attempts_allowed %><br />
-    <%= f.number_field :attempts_allowed %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

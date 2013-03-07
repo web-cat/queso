@@ -1,6 +1,9 @@
 Queso::Application.routes.draw do
   
-  resources :users, :exams, :questions, :user_sessions, :true_or_false_questions
+  resources :users, :exams, :questions, :user_sessions, :true_or_false_questions, :exam_attempts
+  
+  put 'exams/:id/add_new_question_to_exam' => 'exams#add_new_question_to_exam'  
+  put 'exams/:id/add_existing_question_to_exam' => 'exams#add_existing_question_to_exam', :as => "add_existing_question_to_exam"
 
   match 'login' => 'user_sessions#new', :as => :login
   

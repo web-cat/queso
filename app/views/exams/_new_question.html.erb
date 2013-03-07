@@ -1,0 +1,32 @@
+<%= form_for(Question.new, :html => {:class => "questions-form well span6 hide", :style => "padding-top: 5px;"}) do |f| %>
+
+  <h3 style="margin: 0px;">New Question</h3>
+
+  <div class="row">
+  		  		
+	<div class="span6">
+		<%= f.label :statement %>
+		<%= f.text_area :statement, :class => "input-xlarge span6", :rows => 4 %>
+	</div>
+  </div>
+  <div class="row">
+	<div class="span3">
+		<%= f.label :points, "Points" %>
+		<%= f.text_field :points, :class => "span3" %>
+	</div>
+	
+	<div class="span3">	
+		<%= f.label :type %>
+		<%= f.collection_select :type, Question::TYPES, :to_s, :humanize, :class => "span3", :prompt => "Please select a type" %>
+		
+		<div id="true-or-false-extra" class="hide">
+			<label>Correct Answer</label>
+			<%= select_tag "correct-answer", :class => "span3" %>
+		</div>
+		
+	</div>
+  </div>
+  
+  <%= f.submit "Add To Exam", :class => "btn btn-primary pull-right", :id => "add-new-question-to-exam" %>
+  <div class="btn pull-right" id="cancel-new-question" style="height: 17px; line-height: 17px; margin-right: 10px; margin-top: 0;">Cancel</div>
+<% end %>

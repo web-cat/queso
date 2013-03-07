@@ -24,7 +24,7 @@
 			  		<td><%= f.text_field :username, :placeholder => "Username", :tabindex => 3 %></td>
 			  		<td>
 			  		<% if can? :manage, :all  %>
-			  			<%= f.collection_select :role, User::ROLES, :to_s, :humanize%>
+			  			<%= f.collection_select :role, User::ROLES, :to_s, :humanize %>
 			  		<% end %>
 			  		</td>
 		  		</tr>

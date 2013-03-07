@@ -7,6 +7,10 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	
+	<% if notice %>
+	<div class='notifications top-right inverse' data-notice-text="<%= notice %>"></div>
+	<% end %>
 		
     <div class="navbar">
 	    <div class="navbar-inner">
@@ -16,26 +20,25 @@
 				    <span class="icon-bar"></span>
 				    <span class="icon-bar"></span>
 			    </a>
-			    <img src="/assets/queso.png" width="40px" class="nav" style="margin-top: 3px;" />
+			    
+			    <a href="<%= root_path %>" name="top"><img src="/assets/queso.png" width="40px" class="nav" style="margin-top: 3px;" /></a>
 			    <a class="brand" href="<%= root_path %>" name="top">Queso</a>
 			    <div class="nav-collapse collapse">
 				    <ul class="nav">
 					    <li <%= controller.controller_name == "general" ? "class=\"active\"".html_safe : "" %>><a href="<%= root_path %>"><i class="icon-home"></i> Home</a></li>					    
-					    <% if can? :read, User %>
+					    <% if can? :manage, User %>
 					    	<li class="divider-vertical"></li>
 					    	<li <%= controller.controller_name == "users" ? "class=\"active\"".html_safe : "" %>><a href="<%= users_path %>"><i class="icon-user"></i> Users</a></li>
 					    <% end %>
 					    <li class="divider-vertical"></li>
 					    <li><a href="#"><i class="icon-envelope"></i> Messages</a></li>
-					    <li class="divider-vertical"></li>
-					    <li><a href="#"><i class="icon-signal"></i> Stats</a></li>	
 					    <% if can? :read, Exam %>
 					    	<li class="divider-vertical"></li>
 					    	<li <%= controller.controller_name == "exams" ? "class=\"active\"".html_safe : "" %>><a href="<%= exams_path %>"><i class="icon-th-list"></i> Exams</a></li>
 					    <% end %>				    
 					    <% if can? :read, Question %>
 					    	<li class="divider-vertical"></li>
-					    	<li <%= controller.controller_name == "questions" ? "class=\"active\"".html_safe : "" %>><a href="<%= questions_path %>"><i class="icon-question-sign"></i> Questions</a></li>
+					    	<li <%= (Question::TYPES.include?( controller.controller_name.chop ) || controller_name == "questions") ? "class=\"active\"".html_safe : "" %>><a href="<%= questions_path %>"><i class="icon-question-sign"></i> Questions</a></li>
 					    <% end %>
 					    <li class="divider-vertical"></li>
 				    </ul>
@@ -56,7 +59,7 @@
 			    	<% elsif !current_page?(login_path) %>
 					    <%= link_to "Sign Up", new_user_path, :class => "btn btn-primary" %>
 					    <a class="btn btn-success" data-toggle="modal" href="#loginModal" >Login</a> <!-- The loginModal is defined in the login_modal partial. -->
-					    <%= render 'login_modal' %> 					    
+					    <%= render 'login_modal' %>
 				    <% end %>
 				    </div>
 			    </div>
@@ -69,7 +72,7 @@
     </div>
     <!--/.navbar -->
     
-    <div class="container">
+    <div class="container">    
 
 	<%= yield %>
 	

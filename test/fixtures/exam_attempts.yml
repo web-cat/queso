@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  exam_id: 1
+  available_at: 2013-02-11 16:42:57
+  closes_at: 2013-02-11 16:42:57
+
+two:
+  user_id: 1
+  exam_id: 1
+  available_at: 2013-02-11 16:42:57
+  closes_at: 2013-02-11 16:42:57

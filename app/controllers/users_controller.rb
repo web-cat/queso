@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     @user.role = params[:user][:role] # TODO: This shouldn't really be here. Just for testing.
     
     if @user.save
-      redirect_to :root
+      redirect_to :root, notice: "Registration successful."
     else
       render "new"
     end
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     @user.role = params[:user][:role] # TODO: This shouldn't really be here. Just for testing.
   
     if @user.save
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user, notice: 'Profile was successfully updated.'
     else
       render "edit"
     end

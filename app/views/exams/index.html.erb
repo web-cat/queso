@@ -1,25 +1,80 @@
-<h1>Listing exams</h1>
+<h1>Exams</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Attempts allowed</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="btn-toolbar">
+	<a href="<%= new_exam_path %>"><button  class="btn btn-primary" style="margin-right: 5px;">New Exam</button></a>
+    <a href="<%= exams_path(:format => "csv") %>"><button class="btn">Export</button></a>
+</div>
 
-<% @exams.each do |exam| %>
-  <tr>
-    <td><%= exam.name %></td>
-    <td><%= exam.attempts_allowed %></td>
-    <td><%= link_to 'Show', exam %></td>
-    <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
-    <td><%= link_to 'Destroy', exam, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+<div class="well">
+    <table class="table" data-provides="rowlink">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th style="text-align: center;">Attempts</th>
+          <th>Status</th>
+          <th>Opens</th>
+          <th>Closes</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      	<% @exams.each do |exam| %>
+      	<% if can? :read, exam %>
+        <tr>
+          <td><%= link_to exam.name, exam %></td>
+          <td style="text-align: center;"><%= exam.attempts_allowed %></td>
+                    	
+      	  <% if exam.available_at && exam.closes_at %>
+          	<td>
+	          	<% if exam.available_at < Time.now && exam.closes_at >= Time.now %>
+	          		<span class="label label-warning" style="text-align: center;">In Progress</span>
+	      		<% elsif exam.closes_at < Time.now %>
+	      			<span class="label" style="text-align: center;">Finished</span>
+	          	<% else %>
+	          		<span class="label label-success" style="text-align: center;">Ready</span>
+	          	<% end %>
+	        </td>
+	        
+	      <td><%= l exam.available_at, :format => :long %></td>
+	      <td><%= l exam.closes_at, :format => :long %></td>
+          	
+     	  <% else %>
+          	<td></td><td></td><td></td>
+          	
+          <% end %>
+          
+          <td class="nolink">
+          	<% if can? :update, exam %>
+              <a href="<%= edit_exam_path(exam) %>"><i class="icon-pencil"></i></a>
+            <% end %>
+            <% if can? :destroy, exam %>
+              <a href="#deleteExamModal" role="button" data-toggle="modal" id="examDeleteButton" data-delete-exam-id="<%= exam.id.to_s %>" data-delete-exam-name="<%= exam.name %>"><i class="icon-remove"></i></a>
+          	<% end %>
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+</div>
 
+<div align="right">
+<%= paginate @exams, :window => 3, :outer_window => 2 %>
+</div>
+
+<div class="modal small hide fade" id="deleteExamModal" tabindex="-1" role="dialog" aria-labelledby="deleteExamModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="deleteExamModalLabel">Delete Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p class="error-text">Are you sure you want to delete the exam <span id="exam-to-delete"></span>?</p>
+    </div>
+    <div class="modal-footer">
+    	 <div style="margin-left: 10px; float: right;"><%= button_to 'Delete', "#", :method => :delete, :class => "btn btn-danger", :style => "height: 30px;" %></div>
+	     <div style="float: right;"><button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button></div>
+    </div>
+</div>
+ 
 <br />
 
-<%= link_to 'New Exam', new_exam_path %>

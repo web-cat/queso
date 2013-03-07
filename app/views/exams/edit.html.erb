@@ -1,6 +1,20 @@
-<h1>Editing exam</h1>
+<h1><%= @exam.name %></h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @exam %> |
-<%= link_to 'Back', exams_path %>
+<table width="100%">
+	
+<tr valign="top">
+	<td width="460px">
+	<div id="new-exam-form">
+	<%= render 'form' %>
+	</div>
+	</td>
+	
+	<td width="460px">
+	<%= render 'new_question' %>
+	
+	<div id="question-chooser" class="well span6 hide">
+		<%= render 'include_question' %>
+	</div>
+	</td>
+</tr>
+</table>

@@ -8,11 +8,11 @@ $(document).ready(function(){
   });
 })
 
-var submitted = false;
+var loginFormSubmitted = false;
 $(document).on("click", "#userLoginModalButton", function () {
-	if (!submitted)
+	if (!loginFormSubmitted)
 	{
-		submitted = true;
+		loginFormSubmitted = true;
 		$("form#new_user_session").submit(submitForm);
 	}
 	

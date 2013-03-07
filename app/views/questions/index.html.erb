@@ -8,7 +8,6 @@
     <table class="table" data-provides="rowlink">
       <thead>
         <tr>
-          <th>#</th>
           <th>Statement</th>
           <th>Points</th>
           <th>Made By</th>
@@ -20,19 +19,16 @@
       	<% @questions.each do |question| %>
       	<% if can? :read, question %>
         <tr>
-    	  <td>
-          	<%= link_to question.id.to_s, question %>
-      	  </td>
-    	  <td><%= truncate(question.statement, :length => 60, :omission => "...") %></td>                  
+    	  <td><%= link_to truncate(question.statement, :length => 60, :omission => "..."), question %></td>                  
           <td><%= question.points %></td>
-          <td><%= question.user.lastname || "Not Found" %></td>
-          <td><%= question.used ? "Yes" : "No" %></td>
+          <td><%= question.user ? question.user.lastname : "Not Found" %></td>
+          <td><%= question.used ? "<span class=\"label\" style=\"text-align: center;\">Yes</span>".html_safe : "<span class=\"label label-success\" style=\"text-align: center;\">Never</span>".html_safe %></td>
           
           <td class="nolink">
           	<% if can? :update, question %>
               <a href="<%= edit_question_path(question) %>"><i class="icon-pencil"></i></a>
             <% end %>
-            <% if can? :delete, question %>
+            <% if can? :destroy, question %>
               <a href="#deleteQuestionModal" role="button" data-toggle="modal" id="questionDeleteButton" data-delete-question-id="<%= question.id.to_s %>"><i class="icon-remove"></i></a>
           	<% end %>
           </td>

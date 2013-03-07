@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => :create
   
   # GET /questions
   # GET /questions.json
@@ -32,7 +32,14 @@ class QuestionsController < ApplicationController
   end
 
   # POST /questions
-  def create
+  def create    
+    params[:question].each_value(&:strip!)
+        
+    questionModel = params[:question].delete(:type).camelize.constantize
+    
+    @question = questionModel.new( params[:question] )
+    
+    authorize! :create, @question
     
     @question.user_id = current_user.id
     

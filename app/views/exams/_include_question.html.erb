@@ -1,0 +1,47 @@
+
+	<h3 style="margin: 0px;">Existing Questions</h3>
+	
+	<%= form_tag( add_existing_question_to_exam_path(@exam.id), :method => :put, :id => "add_existing_question_form" ) do %>
+	
+		<div class="accordion" id="include-question-list">
+		<% chooserCount = 1 %>
+		<% @questions.each do |question| %>
+			<div class="accordion-group">
+				<div class="accordion-heading">									
+					<table class="accordion-toggle">				
+					<tr>
+						<td><%= check_box_tag 'selected_questions[]', question.id.to_s, false, {:id => "select_question_#{question.id}", :style => "margin-top: -2px;" } %></td>
+						<td><i class="icon-chevron-right"></i></td>
+						<td width="100%"><a data-toggle="collapse" data-parent="#include-questions-list" href="#include-collapse<%= chooserCount.to_s %>"><%= truncate(question.statement, :length => 60, :omission => "...") %></a></td>
+					</tr>
+					</table>
+				</div>
+				<div id="include-collapse<%= chooserCount.to_s %>" class="accordion-body collapse">
+					<div class="accordion-inner">
+						<%= question.statement %>
+						
+						<p>
+						<% if question.type == "TrueOrFalseQuestion" %>
+							<ul>
+								<li>True</li>
+								<li>False</li>
+							</ul>           			
+						<% end %>
+						</p>
+						
+					</div>
+				</div>
+			</div>
+			<% chooserCount = chooserCount + 1 %>
+		<% end %>
+		</div>
+		
+		<div id="questions-paginator" align="right">
+			<%= paginate @questions, :remote => true, :window => 2, :outer_window => 0 %>
+		</div>
+		
+		<%= submit_tag "Add to Exam", :class => "btn btn-primary pull-right", :id => "add-existing-question-to-exam" %>
+		<div class="btn pull-right" id="cancel-existing-question" style="margin-right: 10px;">Cancel</div>
+		
+	<% end %>
+	

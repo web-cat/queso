@@ -12,26 +12,40 @@ class Ability
     elsif user.role == "instructor"
       # TODO: Instructors should only be able to see their own students. Or something like that...
       can :read, User, :role => "student"
-      can :manage, User, :id => user.id
+      can :read, User, :id => user.id
+      can :update, User, :id => user.id
       
       can :read, Exam, :user_id => user.id
       can :create, Exam
       can :manage, Exam do |exam|
-        exam.try(:user) == user && exam.try(:activated) == false 
+        exam.try(:user) == user && exam.try(:activated) == false
+      end
+      
+      can :read, ExamAttempt # TODO: Should instructors be able to see all students' attempts? (not only their students?)
+      can :create, ExamAttempt
+      can :update, ExamAttempt do |attempt|
+        attempt.try(:exam).available_at < Time.now && attempt.try(:exam).closes_at >= Time.now
       end
       
       can :read, Question
       can :create, Question
       can :update, Question do |question|
-        question.try(:user) == user
+        question.try(:user) == user && question.try(:used) == false
       end
       can :destroy, Question do |question|
         question.try(:user) == user && question.try(:used) == false
       end
             
     elsif user.role == "student"
-      can :manage, User, :id => user.id
+      can :read, User, :id => user.id
+      can :update, User, :id => user.id
+      
       # TODO: Students need to be able to see past and pending exam attempts.
+      can :read, ExamAttempt, :user_id => user.id
+      can :create, ExamAttempt
+      can :update, ExamAttempt do |attempt|
+        attempt.try(:available_at) < Time.now && attempt.try(:closes_at) + 1.minute >= Time.now # TODO: The extra minute is just to be safe. Is this ok?
+      end
     end
     
     # Define abilities for the passed in user here. For example:

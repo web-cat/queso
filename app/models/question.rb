@@ -1,8 +1,9 @@
 class Question < ActiveRecord::Base
-  attr_accessible :points, :statement
-  attr_protected :user_id
+  TYPES = %w[true_or_false_question]
   
-  has_many :question_on_exams
+  attr_accessible :points, :statement, :user_id
+  
+  has_many :question_on_exams, :dependent => :destroy
   has_many :exams, :through => :question_on_exams
   
   has_many :taggings
