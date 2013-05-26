@@ -5,6 +5,8 @@ class Exam < ActiveRecord::Base
   has_many :question_on_exams, :dependent => :destroy
   has_many :questions, :through => :question_on_exams
   
+  has_many :exam_attempts
+  
   accepts_nested_attributes_for :question_on_exams # TODO: rejects if...?
   
   belongs_to :user # This is just to track who CREATED this exam.

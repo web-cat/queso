@@ -4,3 +4,19 @@
     cursor: pointer;
     background-color: white;
 }
+
+.examslist {
+	padding-bottom: 0px;
+}
+
+.examslist tbody {
+	font-size: 12px;	
+}
+
+.examslist td {
+	padding: 4px;
+}
+
+.examslist tr td:first-child {
+	font-weight: bold;
+}

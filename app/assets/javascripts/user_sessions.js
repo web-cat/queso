@@ -1,12 +1,19 @@
 
 $(document).ready(function(){
+	
+	$('#loginModal').on("shown", function () {
+		$("#user_session_email").focus();
+	});
+		
     $(document).ajaxError( function(e, xhr, options){
-    if(xhr.responseText == "login_successful")
-    {
-       $(location).attr('href','/');
-    }
-  });
+	    if(xhr.responseText == "login_successful")
+	    {
+	       $(location).attr('href','/');
+	    }
+  	});
 })
+
+
 
 var loginFormSubmitted = false;
 $(document).on("click", "#userLoginModalButton", function () {

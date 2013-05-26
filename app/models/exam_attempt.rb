@@ -3,4 +3,6 @@ class ExamAttempt < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :exam
+  
+  has_many :question_responses
 end

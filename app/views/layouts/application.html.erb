@@ -58,7 +58,7 @@
 						</ul>
 			    	<% elsif !current_page?(login_path) %>
 					    <%= link_to "Sign Up", new_user_path, :class => "btn btn-primary" %>
-					    <a class="btn btn-success" data-toggle="modal" href="#loginModal" >Login</a> <!-- The loginModal is defined in the login_modal partial. -->
+					    <a class="btn btn-success" data-toggle="modal" href="#loginModal" id="login-btn" >Login</a> <!-- The loginModal is defined in the login_modal partial. -->
 					    <%= render 'login_modal' %>
 				    <% end %>
 				    </div>

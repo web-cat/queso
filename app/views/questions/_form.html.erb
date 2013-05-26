@@ -1,28 +1,56 @@
-<%= form_for(@question, :html => {:class => "questions-form well span10"}) do |f| %>
-  <div class="row">
+<%= form_for(@question, :html => {:class => "questions-form well span7"}) do |f| %>
+    <div class="row">
   		  		
 		<div class="span7">
 			<%= f.label :statement %>
-			<%= f.text_area :statement, :class => "input-xlarge span7", :rows => 6 %>
+			<%= f.text_area :statement, :class => "input-xlarge span7", :rows => 4 %>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span2">
+			<%= f.label :points, "Default Points" %>
+			<%= f.text_field :points, :class => "span2" %>
 		</div>
 		
 		<div class="span3">
-			<br />
-			<%= f.label :points, "Default Points" %>
-			<%= f.text_field :points, :class => "span3", :placeholder => "Default number of points" %>
-			
-			<% if params[:action] == "new" %>
 			<%= f.label :type %>
 			<%= f.collection_select :type, Question::TYPES, :to_s, :humanize, :class => "span3", :prompt => "Please select a type" %>
-			
-			<div id="true-or-false-extra" class="hide">
-				<label>Correct Answer</label>
-				<%= select_tag "correct-answer", :class => "span3" %>
-			</div>
-			<% end %>
-			
 		</div>
-  </div>
+	</div>
 	
-	<%= f.submit :class => "btn btn-primary pull-right" %>
+	<div id="true-or-false-question-extra" class="hide">
+		
+		<label>Correct Answer</label>
+		<%= select_tag "question[answer]", "<option>True</option> <option>False</option>".html_safe, :class => "span3" %>
+		
+	</div>
+	
+	<div id="multiple-choice-question-extra" class="hide">
+		
+		<label>Options</label>
+		<ul id="mc-options">
+		<% @question.options.each do |option| %>
+			
+			<div class="row">
+				<li style="line-height: 30px; margin-left: 10px;">
+					<div class="span4" style="margin-left: 0px;">
+						<%= text_field_tag "question[options][][statement]", option[:statement].to_s || "", :class => "span4" %>
+					</div>
+					<div class="span1">
+						<%= text_field_tag "question[options][][points]", option[:points].to_s || "", :class => "span1" %>
+					</div>
+				</li>
+			</div>
+			
+			<br />
+		<% end %>
+		</ul>
+		
+		<%= link_to "Add Options", "#", :id => "addOptions", :class => "btn btn-info" %>
+		
+	</div>
+	
+	<br />
+	<%= f.submit :class => "btn btn-primary" %>
 <% end %>

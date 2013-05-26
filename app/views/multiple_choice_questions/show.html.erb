@@ -1,0 +1,40 @@
+
+<h3>Multiple Choice Question</h3>
+
+<p>
+  <b>Statement:</b>
+  <%= @question.statement %>
+</p>
+
+<p>
+  <b>Points:</b>
+  <%= @question.points %>
+</p>
+
+<p>
+	<b>Options:</b>
+	<% if @question.options %>
+		<% @question.options.each do |option| %>
+				
+			<div class="row">
+				<li>
+					<div class="span4">
+						<%= option[:statement] %>
+					</div>
+					<div class="span1">
+						<%= option[:points] %>
+					</div>
+				</li>
+			</div>
+			
+			<br />
+		<% end %>
+	<% else %>
+		No options were added to this question.
+	<% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
+

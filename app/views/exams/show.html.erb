@@ -1,15 +1,41 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @exam.name %>
-</p>
+<h2><%= @exam.name %></h2>
 
-<p>
-  <b>Attempts allowed:</b>
-  <%= @exam.attempts_allowed %>
-</p>
-
-
-<%= link_to 'Edit', edit_exam_path(@exam) %> |
-<%= link_to 'Back', exams_path %>
+<div class="well">
+	
+	<p>
+	  <b>Number of questions:</b>
+	  <%= @exam.questions.count.to_s %>
+	</p>
+	
+	<p>
+	  <b>Available at:</b>
+	  <%= l @exam.available_at, :format => :long %>
+	</p>
+	
+	<p>
+	  <b>Due at:</b>
+	  <%= l @exam.closes_at, :format => :long %>
+	</p>
+	
+	<p>
+	  <b>Attempts allowed:</b>
+	  <%= @exam.attempts_allowed.to_s %>
+	</p>
+	
+	<p>
+	  <b>Attempts remaining:</b>
+	  <%= attempts_remaining = @exam.attempts_allowed - @exam.exam_attempts.where(:user_id => current_user.id).count  %>
+	</p>
+	
+	<br />
+	
+	<% if can? :edit, @exam %>
+		<%= link_to "Edit Exam", edit_exam_path(@exam), :class => "btn btn-primary" %>
+	<% end %>
+	
+	<% if @exam.available_at < Time.now && @exam.closes_at >= Time.now && attempts_remaining > 0 %>
+		<%= link_to "Take Exam", "#", :class => "btn btn-success" %>
+	<% end %>
+	
+</div>

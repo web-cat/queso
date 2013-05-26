@@ -5,7 +5,7 @@
     <a href="<%= exams_path(:format => "csv") %>"><button class="btn">Export</button></a>
 </div>
 
-<div class="well">
+<div class="well examslist">
     <table class="table" data-provides="rowlink">
       <thead>
         <tr>
@@ -22,7 +22,7 @@
       	<% if can? :read, exam %>
         <tr>
           <td><%= link_to exam.name, exam %></td>
-          <td style="text-align: center;"><%= exam.attempts_allowed %></td>
+          <td style="text-align: center;"><%= (exam.attempts_allowed - exam.exam_attempts.where(:user_id => current_user.id).count).to_s + " / " + exam.attempts_allowed.to_s %></td>
                     	
       	  <% if exam.available_at && exam.closes_at %>
           	<td>
@@ -35,8 +35,8 @@
 	          	<% end %>
 	        </td>
 	        
-	      <td><%= l exam.available_at, :format => :long %></td>
-	      <td><%= l exam.closes_at, :format => :long %></td>
+	      <td><%= l exam.available_at, :format => :short %></td>
+	      <td><%= l exam.closes_at, :format => :short %></td>
           	
      	  <% else %>
           	<td></td><td></td><td></td>

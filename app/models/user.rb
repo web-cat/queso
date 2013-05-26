@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   
   has_many :exams
   has_many :questions
+  has_many :exam_attempts
   
   def make_admin_if_first
     self.role = "admin" if !User.any?

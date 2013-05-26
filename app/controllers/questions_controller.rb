@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    @question.options = [{:statement => "", :points => "" }, {:statement => "", :points => "" }, {:statement => "", :points => "" }]
   end
 
   # GET /questions/1/edit
@@ -32,8 +33,22 @@ class QuestionsController < ApplicationController
   end
 
   # POST /questions
-  def create    
-    params[:question].each_value(&:strip!)
+  def create
+    
+    toRemove = []
+    params[:question][:options].each do |option|
+      if option[:statement].blank?
+        toRemove.push(option)
+      end
+    end
+    
+    toRemove.each do |removeMe|
+      params[:question][:options].delete(removeMe)
+    end
+    
+    if params[:question][:options].empty?
+      params[:question][:options] = nil
+    end
         
     questionModel = params[:question].delete(:type).camelize.constantize
     

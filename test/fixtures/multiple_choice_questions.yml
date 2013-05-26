@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  options: MyText
+  allow_multiple: false
+
+two:
+  options: MyText
+  allow_multiple: false
